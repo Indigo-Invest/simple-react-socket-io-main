@@ -1,6 +1,7 @@
+//As the React client, we listen for the "typing" event and show who is typing
 import React, { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
-import { v4 as uuidv4 } from 'uuid'; // unique id for users
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
   const socketRef = useRef(null);
@@ -9,8 +10,8 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [username, setUsername] = useState('');
+  const [typingStatus, setTypingStatus] = useState('');
 
-  // Set a random username when app starts
   useEffect(() => {
     const randomName = `User-${Math.floor(Math.random() * 1000)}`;
     setUsername(randomName);
@@ -27,15 +28,22 @@ function App() {
       setMessages((prevMessages) => [...prevMessages, messageObj]);
     });
 
+    socketRef.current.on('typing', (typingUser) => {
+      if (typingUser !== username) {
+        setTypingStatus(`${typingUser} is typing...`);
+        // Remove typing status after 2 seconds
+        setTimeout(() => setTypingStatus(''), 2000);
+      }
+    });
+
     return () => {
       if (socketRef.current) {
         socketRef.current.disconnect();
       }
     };
-  }, []);
+  }, [username]);
 
   useEffect(() => {
-    // Scroll to the latest message
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
@@ -52,6 +60,10 @@ function App() {
       socketRef.current.emit('message', messageObj);
       setNewMessage('');
     }
+  };
+
+  const handleTyping = () => {
+    socketRef.current.emit('typing', username);
   };
 
   return (
@@ -75,13 +87,21 @@ function App() {
         <div ref={messagesEndRef} />
       </div>
 
+      {/* Typing status */}
+      {typingStatus && (
+        <div style={styles.typingStatus}>{typingStatus}</div>
+      )}
+
       <form onSubmit={handleSendMessage} style={styles.form}>
         <input
           style={styles.input}
           type="text"
           placeholder="Type a message..."
           value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
+          onChange={(e) => {
+            setNewMessage(e.target.value);
+            handleTyping();
+          }}
         />
         <button type="submit" style={styles.button}>Send</button>
       </form>
@@ -115,7 +135,7 @@ const styles = {
     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
     display: 'flex',
     flexDirection: 'column',
-    marginBottom: '1rem',
+    marginBottom: '0.5rem',
   },
   message: {
     padding: '0.5rem 1rem',
@@ -129,6 +149,12 @@ const styles = {
     fontWeight: 'bold',
     color: '#555',
     marginBottom: '0.25rem',
+  },
+  typingStatus: {
+    fontSize: '0.9rem',
+    color: '#888',
+    marginBottom: '0.5rem',
+    fontStyle: 'italic',
   },
   form: {
     display: 'flex',
