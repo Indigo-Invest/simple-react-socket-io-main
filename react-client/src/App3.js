@@ -1,3 +1,4 @@
+// nicer version with a little bit of styling
 import React, { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 //As the React client, we listen for the "typing" event and show who is typing
+=======
+//update App3.js with "Usernames", "Auto-scroll", Cool "sent" and "received" message styles
+>>>>>>> a8792507c75aba4f1880558e5672f674ce9c0eea
 import React, { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 //Adding a "typing..." indicator ✍️ (when someone is typing) 
+=======
+//Replaced depricated methods
+>>>>>>> a8792507c75aba4f1880558e5672f674ce9c0eea
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
