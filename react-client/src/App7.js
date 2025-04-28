@@ -68,7 +68,8 @@ function App() {
     e.preventDefault();
     if (newMessage.trim() !== '') {
       const now = new Date();
-      const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const timestamp = now.toLocaleString() // shows full date + time
+
 
       const messageObj = {
         id: uuidv4(),
