@@ -1,4 +1,4 @@
-//As the React client, we listen for the "typing" event and show who is typing
+//As the React client, we listen for the "typing" event and show who is typing 
 import React, { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
