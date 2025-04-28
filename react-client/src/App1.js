@@ -1,3 +1,4 @@
+//Initial file with the deprecated methods
 import { useEffect, useRef } from "react";
 import "./App.css";
 
