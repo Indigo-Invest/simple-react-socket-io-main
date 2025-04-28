@@ -1,4 +1,4 @@
-//Updated App.js to Add Timestamps
+//Updated App.js with Random Avatar Styles
 import React, { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
@@ -12,6 +12,7 @@ function App() {
   const [userData, setUserData] = useState({ username: '', avatarStyle: '' });
   const [typingStatus, setTypingStatus] = useState('');
 
+  // Available avatar styles
   const avatarStyles = [
     'croodles',
     'croodles-neutral',
@@ -22,14 +23,19 @@ function App() {
     'identicon',
   ];
 
+  // Get a random style
   const getRandomStyle = () => {
     const randomIndex = Math.floor(Math.random() * avatarStyles.length);
     return avatarStyles[randomIndex];
   };
 
   useEffect(() => {
+    // Generate random username
     const randomName = `User-${Math.floor(Math.random() * 1000)}`;
+
+    // Assign a random avatar style
     const style = getRandomStyle();
+
     setUserData({ username: randomName, avatarStyle: style });
   }, []);
 
@@ -67,15 +73,11 @@ function App() {
   const handleSendMessage = (e) => {
     e.preventDefault();
     if (newMessage.trim() !== '') {
-      const now = new Date();
-      const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
       const messageObj = {
         id: uuidv4(),
         user: userData.username,
         text: newMessage,
         avatarStyle: userData.avatarStyle,
-        timestamp: timestamp,
       };
       socketRef.current.emit('message', messageObj);
       setNewMessage('');
@@ -86,6 +88,7 @@ function App() {
     socketRef.current.emit('typing', userData.username);
   };
 
+  // Generate avatar URL with random style for each user
   const getAvatarUrl = (user, style) => {
     return `https://api.dicebear.com/7.x/${style}/svg?seed=${encodeURIComponent(user)}`;
   };
@@ -121,7 +124,6 @@ function App() {
               >
                 <div style={styles.username}>{msg.user}</div>
                 <div>{msg.text}</div>
-                <div style={styles.timestamp}>{msg.timestamp}</div>
               </div>
             </div>
           );
@@ -194,19 +196,12 @@ const styles = {
     borderRadius: '10px',
     maxWidth: '70%',
     wordBreak: 'break-word',
-    position: 'relative',
   },
   username: {
     fontSize: '0.75rem',
     fontWeight: 'bold',
     color: '#555',
     marginBottom: '0.25rem',
-  },
-  timestamp: {
-    fontSize: '0.7rem',
-    color: '#999',
-    marginTop: '0.25rem',
-    textAlign: 'right',
   },
   typingStatus: {
     fontSize: '0.9rem',
