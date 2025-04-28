@@ -1,3 +1,4 @@
+//update App3.js with "Usernames", "Auto-scroll", Cool "sent" and "received" message styles
 import React, { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid'; // unique id for users
