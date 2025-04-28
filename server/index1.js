@@ -1,3 +1,4 @@
+//Initial index.js
 const http = require("http");
 const dotenv = require("dotenv");
 const cors = require("cors");
