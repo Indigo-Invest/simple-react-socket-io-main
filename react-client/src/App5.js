@@ -1,4 +1,4 @@
-//Better avatars next to username
+//Better avatars next to username 
 import React, { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
