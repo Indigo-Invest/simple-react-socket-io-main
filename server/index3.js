@@ -1,19 +1,15 @@
+<<<<<<< HEAD
+//Adding a "typing..." indicator ✍️ (when someone is typing) 
+=======
+//Replaced depricated methods
+>>>>>>> a8792507c75aba4f1880558e5672f674ce9c0eea
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
-const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
-
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../client/build')));
-
-// Handle any other routes and return the React app
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-});
 
 const io = new Server(server, {
   cors: {
