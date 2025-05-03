@@ -2,14 +2,15 @@
     "name": "simple-react-socket-io",
     "version": "1.0.0",
     "scripts": {
-      "install-client": "cd client && npm install",
+      "install-client": "cd react-client && npm install",
       "install-server": "cd server && npm install",
       "postinstall": "npm run install-client && npm run install-server && npm run build",
-      "build": "cd client && npm run build",
+      "build": "cd react-client && npm run build",
       "start": "node server/index.js"
     },
     "engines": {
       "node": "18.x"
     }
   }
+  
   
